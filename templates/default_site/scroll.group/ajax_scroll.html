@@ -1,0 +1,28 @@
+<?php
+	
+	$EE =& get_instance();
+	$limit = $EE->input->post('limit');
+	$offset = $EE->input->post('offset');
+
+	if( ! $offset || ! $limit){
+		return 'error';
+	}
+
+?>
+
+{exp:channel:entries
+channel="news"
+disable="categories|category_fields|member_data|pagination|trackbacks"
+dynamic="off"
+offset="<?php echo $offset; ?>"
+orderby="date"
+limit="<?php echo $limit; ?>"}
+	
+	{if no_results}end{/if}
+
+	<div class='article-container'>
+		<h1>{title}</h1>
+		<img width='100px' src='{news_image}' alt='article image' />
+		<p>{news_content}</p>
+	</div>
+{/exp:channel:entries}

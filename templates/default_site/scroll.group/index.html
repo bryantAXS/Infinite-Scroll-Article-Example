@@ -1,0 +1,126 @@
+<html>
+	<head>
+	
+		<style>
+			.article-container{
+				border:1px solid #666;
+				margin-top:10px;
+				padding:20px;
+				width:300px;
+			}
+			.article-container h1{
+				font-size:18px;
+				font-weight:bold;
+			}
+			.article-container img{
+				display:block;
+				margin:10px 0;
+			}
+			.article-container p{
+				padding:8px 0;
+			}
+		</style>
+
+	</head>
+	<body>
+	
+	<div data-start-at='3' data-increment-by='1' id='articles-container'>
+		
+		{exp:channel:entries
+		channel="news"
+		disable="categories|category_fields|member_data|pagination|trackbacks"
+		dynamic="off"
+		orderby="date"
+		limit="3"}
+			<div class='article-container'>
+				<h1>{title}</h1>
+				<img width='100px' src='{news_image}' alt='article image' />
+				<p class="article-content">{news_content}</p>
+			</div>
+		{/exp:channel:entries}
+	
+	</div><!-- #articles-container -->
+	
+	<script src="/assets/js/jquery-1.7.js"></script>
+	<script src="/assets/js/jquery.endlesscroll.js"></script>
+	<script>
+		
+		var Scroll_class = {
+			
+			init: function(){
+				
+				var self = this;
+
+				//container holding articles
+				self.$container = $('#articles-container');
+				
+				//variables usded for counting and loading articles
+				self.start_at = self.$container.data('start-at');
+				self.increment_by = self.$container.data('increment-by');
+				self.current_index = self.start_at;
+				
+				//fuses that tell us to stop the ajax calls
+				self.at_end = false;
+				self.error = false;
+
+				//the actual endless scroll event
+		    $(document).endlessScroll({
+		      bottomPixels: 200
+		      ,fireDelay: 500
+		      ,fireOnce: true
+		      ,callback:function(){
+		       	self.get_new_content();         
+		      }
+		    });
+
+			}
+
+			,get_new_content: function(){
+				
+				var self = this;
+
+				if(self.at_end || self.error) return false;
+
+				$.ajax({
+				  type: "POST"
+				  ,url: "/index.php/scroll/ajax_scroll"
+				  ,data:{
+				  	offset: self.current_index
+				  	,limit: self.increment_by
+				  }
+				  ,success: function(data){
+				  	
+				  	data = $.trim(data);
+				  
+				  	if(data == "error"){
+				  		self.error = true;
+				  		return false;
+				  	}else if(data == "end"){
+				  		self.at_end = true;
+				  		return false;
+				  	}
+
+				  	//add new code to container
+				  	self.$container.append(data);
+				  	
+				  	//increment counter
+				  	self.current_index += self.increment_by;
+				  	
+					}
+
+				});
+			
+			}
+
+		}
+
+		$(document).ready(function(){
+				
+			Scroll_class.init();
+
+		});
+	</script>
+	
+
+	</body>
+</html>
