@@ -11,8 +11,8 @@ Article utilizing this code can be found here:
 * Add some entries
 
 #### Channel Field: News
-#### Channel : News
-#### Fields : 
+#### Channel: News
+#### Fields: 
 
-* news_image : image field
-* news_content : text area field
+* news_image: image field
+* news_content: text area field
