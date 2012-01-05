@@ -1,6 +1,6 @@
 # Infinite Scroll Example Code
 
-Article utilizing this code can be found here: 
+Article utilizing this code can be found here: http://www.thegoodlab.com/articles/infinite-scroll-with-ee
 
 ## Setup
 
