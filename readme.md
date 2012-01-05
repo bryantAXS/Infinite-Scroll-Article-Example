@@ -10,9 +10,9 @@ Article utilizing this code can be found here:
 * Setup Channel Fields/Channel
 * Add some entries
 
-Channel Field : News
-Channel : News
-Fields : 
+#### Channel Field: News
+#### Channel : News
+#### Fields : 
 
 * news_image : image field
 * news_content : text area field
