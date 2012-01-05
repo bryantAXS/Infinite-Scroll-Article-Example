@@ -16,3 +16,7 @@ Article utilizing this code can be found here:
 
 * news_image: image field
 * news_content: text area field
+
+## Note
+
+Old versions of jQuery may not support the implementation of the .data() method our example uses.  Please use a modern version if you are not using the one provided in this example.
