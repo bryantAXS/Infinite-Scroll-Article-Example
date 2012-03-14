@@ -79,7 +79,10 @@
 				
 				var self = this;
 
-				if(self.at_end || self.error) return false;
+				if(self.at_end || self.error){
+					$(document).unbind('scroll');
+					return false;
+				} 
 
 				$.ajax({
 				  type: "POST"
